@@ -1,8 +1,4 @@
-/*
- * @Description: 数据预处理模块，包括时间同步、点云去畸变等
-  
- * @Date: 2020-02-10 08:38:42
- */
+
 #include "lidar_localization/data_pretreat/data_pretreat_flow.hpp"
 
 #include "glog/logging.h"
@@ -17,9 +13,9 @@ DataPretreatFlow::DataPretreatFlow(ros::NodeHandle& nh) {
     gnss_sub_ptr_ = std::make_shared<GNSSSubscriber>(nh, "/kitti/oxts/gps/fix", 1000000);
     lidar_to_imu_ptr_ = std::make_shared<TFListener>(nh, "/imu_link", "velo_link");
     // publisher
-    cloud_pub_ptr_ = std::make_shared<CloudPublisher>(nh, "/synced_cloud", "/velo_link", 100);
+    cloud_pub_ptr_ = std::make_shared<CloudPublisher>(nh, "/synced_cloud", "/velo_link", 100); // "/velo_link" is the frame id
     gnss_pub_ptr_ = std::make_shared<OdometryPublisher>(nh, "/synced_gnss", "/map", "/velo_link", 100);
-
+    imu_pub_ptr_ = std::make_shared<IMUPublisher>(nh, "/synced_imu", "/velo_link", 100);
     distortion_adjust_ptr_ = std::make_shared<DistortionAdjust>();
 }
 
@@ -157,6 +153,8 @@ bool DataPretreatFlow::TransformData() {
     gnss_pose_.block<3,3>(0,0) = current_imu_data_.GetOrientationMatrix();
     gnss_pose_ *= lidar_to_imu_;
 
+//    current_imu_data_.TransformCoordinate(lidar_to_imu_);
+
     current_velocity_data_.TransformCoordinate(lidar_to_imu_);
     distortion_adjust_ptr_->SetMotionInfo(0.1, current_velocity_data_);
     distortion_adjust_ptr_->AdjustCloud(current_cloud_data_.cloud_ptr, current_cloud_data_.cloud_ptr);
@@ -167,7 +165,7 @@ bool DataPretreatFlow::TransformData() {
 bool DataPretreatFlow::PublishData() {
     cloud_pub_ptr_->Publish(current_cloud_data_.cloud_ptr, current_cloud_data_.time);
     gnss_pub_ptr_->Publish(gnss_pose_, current_gnss_data_.time);
-
+    imu_pub_ptr_ -> Publish(current_imu_data_, current_imu_data_.time);
     return true;
 }
 }

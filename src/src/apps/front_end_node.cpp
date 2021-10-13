@@ -1,8 +1,4 @@
-/*
- * @Description: 前端里程计的node文件
-  
- * @Date: 2020-02-05 02:56:27
- */
+
 #include <ros/ros.h>
 #include "glog/logging.h"
 

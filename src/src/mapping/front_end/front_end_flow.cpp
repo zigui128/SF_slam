@@ -1,8 +1,4 @@
-/*
- * @Description: front end 任务管理， 放在类里使代码更清晰
-  
- * @Date: 2020-02-10 08:38:42
- */
+
 #include "lidar_localization/mapping/front_end/front_end_flow.hpp"
 #include "glog/logging.h"
 #include "lidar_localization/global_defination/global_defination.h"
@@ -10,6 +6,7 @@
 namespace lidar_localization {
 FrontEndFlow::FrontEndFlow(ros::NodeHandle& nh) {
     cloud_sub_ptr_ = std::make_shared<CloudSubscriber>(nh, "/synced_cloud", 100000);
+    imu_sub_ptr_ = std::make_shared<IMUSubscriber>(nh, "/synced_imu",100000);
     laser_odom_pub_ptr_ = std::make_shared<OdometryPublisher>(nh, "/laser_odom", "/map", "/lidar", 100);
 
     front_end_ptr_ = std::make_shared<FrontEnd>();

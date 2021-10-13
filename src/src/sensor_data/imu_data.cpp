@@ -1,8 +1,4 @@
-/*
- * @Description: imu data
-  
- * @Date: 2020-02-23 22:20:41
- */
+
 #include "lidar_localization/sensor_data/imu_data.hpp"
 
 #include <cmath>
@@ -14,6 +10,32 @@ Eigen::Matrix3f IMUData::GetOrientationMatrix() {
     Eigen::Matrix3f matrix = q.matrix().cast<float>();
 
     return matrix;
+}
+
+void IMUData::TransformCoordinate(Eigen::Matrix4f transform_matrix) {
+   Eigen::Matrix4d matrix = transform_matrix.cast<double>();
+    Eigen::Matrix3d t_R = matrix.block<3,3>(0,0);
+
+     Eigen::Vector3d w(angular_velocity.x, angular_velocity.y, angular_velocity.z);
+    Eigen::Vector3d a(linear_acceleration.x, linear_acceleration.y, linear_acceleration.z);
+
+    w = t_R * w;
+    a = t_R * a;
+
+    angular_velocity.x = w(0);
+    angular_velocity.y = w(1);
+    angular_velocity.z = w(2);
+    linear_acceleration.x = a(0);
+    linear_acceleration.y = a(1);
+    linear_acceleration.z = a(2);
+
+     Eigen::Matrix3d R = GetOrientationMatrix().cast<double>();
+     R = t_R*R;
+     Eigen::Quaterniond q(R);
+     orientation.w = q.w();
+     orientation.x = q.x();
+     orientation.y = q.y();
+     orientation.z = q.z();
 }
 
 bool IMUData::SyncData(std::deque<IMUData>& UnsyncedData, std::deque<IMUData>& SyncedData, double sync_time) {

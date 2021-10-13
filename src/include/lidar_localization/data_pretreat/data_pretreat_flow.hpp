@@ -1,8 +1,4 @@
-/*
- * @Description: 数据预处理模块，包括时间同步、点云去畸变等
 
- * @Date: 2020-02-10 08:31:22
- */
 #ifndef LIDAR_LOCALIZATION_DATA_PRETREAT_DATA_PRETREAT_FLOW_HPP_
 #define LIDAR_LOCALIZATION_DATA_PRETREAT_DATA_PRETREAT_FLOW_HPP_
 
@@ -16,6 +12,7 @@
 // publisher
 #include "lidar_localization/publisher/cloud_publisher.hpp"
 #include "lidar_localization/publisher/odometry_publisher.hpp"
+#include "lidar_localization/publisher/imu_publisher.hpp"
 // models
 #include "lidar_localization/models/scan_adjust/distortion_adjust.hpp"
 
@@ -45,6 +42,7 @@ class DataPretreatFlow {
     // publisher
     std::shared_ptr<CloudPublisher> cloud_pub_ptr_;
     std::shared_ptr<OdometryPublisher> gnss_pub_ptr_;
+    std::shared_ptr<IMUPublisher> imu_pub_ptr_;
     // models
     std::shared_ptr<DistortionAdjust> distortion_adjust_ptr_;
 

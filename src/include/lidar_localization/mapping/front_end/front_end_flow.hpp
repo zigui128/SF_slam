@@ -1,14 +1,11 @@
-/*
- * @Description: front end 任务管理， 放在类里使代码更清晰
-  
- * @Date: 2020-02-10 08:31:22
- */
+
 #ifndef LIDAR_LOCALIZATION_MAPPING_FRONT_END_FRONT_END_FLOW_HPP_
 #define LIDAR_LOCALIZATION_MAPPING_FRONT_END_FRONT_END_FLOW_HPP_
 
 #include <ros/ros.h>
 
 #include "lidar_localization/subscriber/cloud_subscriber.hpp"
+#include "lidar_localization/subscriber/imu_subscriber.hpp"
 #include "lidar_localization/publisher/odometry_publisher.hpp"
 #include "lidar_localization/mapping/front_end/front_end.hpp"
 
@@ -28,6 +25,7 @@ class FrontEndFlow {
 
   private:
     std::shared_ptr<CloudSubscriber> cloud_sub_ptr_;
+    std::shared_ptr<IMUSubscriber> imu_sub_ptr_;
     std::shared_ptr<OdometryPublisher> laser_odom_pub_ptr_;
     std::shared_ptr<FrontEnd> front_end_ptr_;
 

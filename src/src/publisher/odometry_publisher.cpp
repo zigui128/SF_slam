@@ -1,8 +1,4 @@
-/*
- * @Description: 里程计信息发布
-  
- * @Date: 2020-02-06 21:11:44
- */
+
 #include "lidar_localization/publisher/odometry_publisher.hpp"
 
 namespace lidar_localization {

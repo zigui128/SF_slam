@@ -1,8 +1,4 @@
-/*
- * @Description: 
-  
- * @Date: 2019-07-17 18:27:40
- */
+
 #ifndef LIDAR_LOCALIZATION_SENSOR_DATA_IMU_DATA_HPP_
 #define LIDAR_LOCALIZATION_SENSOR_DATA_IMU_DATA_HPP_
 
@@ -48,9 +44,11 @@ class IMUData {
     Orientation orientation;
   
   public:
+    static bool SyncData(std::deque<IMUData>& UnsyncedData, std::deque<IMUData>& SyncedData, double sync_time);
     // 把四元数转换成旋转矩阵送出去
     Eigen::Matrix3f GetOrientationMatrix();
-    static bool SyncData(std::deque<IMUData>& UnsyncedData, std::deque<IMUData>& SyncedData, double sync_time);
+    void TransformCoordinate(Eigen::Matrix4f transform_matrix);
+
 };
 }
 #endif

@@ -1,8 +1,4 @@
-/*
- * @Description: 通过ros发布点云
-  
- * @Date: 2020-02-05 02:27:30
- */
+
 
 #include "lidar_localization/publisher/cloud_publisher.hpp"
 #include "glog/logging.h"
