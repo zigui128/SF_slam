@@ -19,6 +19,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_srvs
 )
 
+find_package(GTest REQUIRED)
+
 add_service_files(
    FILES
    saveMap.srv
@@ -40,14 +42,18 @@ include(cmake/geographic.cmake)
 include(cmake/g2o.cmake)
 
 include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(include ${GTEST_INCLUDE_DIRS})
+
 include(cmake/global_defination.cmake)
 catkin_package()
 
 file(GLOB_RECURSE ALL_SRCS "*.cpp")
 file(GLOB_RECURSE NODE_SRCS "src/apps/*_node.cpp")
 file(GLOB_RECURSE THIRD_PARTY_SRCS "third_party/*.cpp")
+file(GLOB_RECURSE GTEST_SRCS "*_test.cpp")
 list(REMOVE_ITEM ALL_SRCS ${NODE_SRCS})
 list(REMOVE_ITEM ALL_SRCS ${THIRD_PARTY_SRCS})
+list(REMOVE_ITEM ALL_SRCS ${GTEST_SRCS})
 
 add_executable(test_frame_node src/apps/test_frame_node.cpp ${ALL_SRCS})
 target_link_libraries(test_frame_node ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARIES})
@@ -72,3 +78,6 @@ target_link_libraries(loop_closing_node ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARI
 add_executable(viewer_node src/apps/viewer_node.cpp ${ALL_SRCS})
 add_dependencies(viewer_node ${catkin_EXPORTED_TARGETS} saveMap_gencpp)
 target_link_libraries(viewer_node ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARIES})
+
+add_executable(simple_test src/simple_test/simple_test.cpp)
+target_link_libraries(simple_test ${GTEST_LIBRARIES} pthread)
