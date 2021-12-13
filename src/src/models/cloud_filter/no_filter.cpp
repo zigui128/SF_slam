@@ -1,8 +1,4 @@
-/*
- * @Description: 不滤波
-  
- * @Date: 2020-02-09 19:53:20
- */
+
 #include "lidar_localization/models/cloud_filter/no_filter.hpp"
 #include "glog/logging.h"
 

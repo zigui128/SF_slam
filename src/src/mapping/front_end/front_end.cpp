@@ -1,8 +1,4 @@
-/*
- * @Description: 前端里程计算法
-  
- * @Date: 2020-02-04 18:53:06
- */
+
 #include "lidar_localization/mapping/front_end/front_end.hpp"
 
 #include <fstream>

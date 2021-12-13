@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(lidar_localization)
 
-
 SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 add_compile_options(-std=c++11)
@@ -81,3 +80,7 @@ target_link_libraries(viewer_node ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARIES})
 
 add_executable(simple_test src/simple_test/simple_test.cpp)
 target_link_libraries(simple_test ${GTEST_LIBRARIES} pthread)
+
+add_executable(imu_preintegration_test src/models/imu_preintegration/Imupreintegration_test.cpp src/models/imu_preintegration/imu_simulation.cpp
+    src/models/imu_preintegration/ImuPreintegration.cpp src/models/imu_preintegration/utility.cpp)
+target_link_libraries(imu_preintegration_test ${GTEST_LIBRARIES} pthread)

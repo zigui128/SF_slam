@@ -1,8 +1,4 @@
-/*
- * @Description: NDT 匹配模块
-  
- * @Date: 2020-02-08 21:46:45
- */
+
 #include "lidar_localization/models/registration/ndt_registration.hpp"
 
 #include "glog/logging.h"

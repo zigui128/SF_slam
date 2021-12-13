@@ -1,8 +1,4 @@
-/*
- * @Description: voxel filter 模块实现
-  
- * @Date: 2020-02-09 19:53:20
- */
+
 #include "lidar_localization/models/cloud_filter/voxel_filter.hpp"
 
 #include "glog/logging.h"

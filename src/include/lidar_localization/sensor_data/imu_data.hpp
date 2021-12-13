@@ -45,7 +45,7 @@ class IMUData {
   
   public:
     static bool SyncData(std::deque<IMUData>& UnsyncedData, std::deque<IMUData>& SyncedData, double sync_time);
-    // 把四元数转换成旋转矩阵送出去
+    // Convert quaternion to matrix for rotation
     Eigen::Matrix3f GetOrientationMatrix();
     void TransformCoordinate(Eigen::Matrix4f transform_matrix);
 

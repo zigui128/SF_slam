@@ -1,8 +1,4 @@
-/*
- * @Description: 点云畸变补偿
-  
- * @Date: 2020-02-25 14:39:00
- */
+
 #include "lidar_localization/models/scan_adjust/distortion_adjust.hpp"
 #include "glog/logging.h"
 

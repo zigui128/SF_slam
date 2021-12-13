@@ -1,8 +1,4 @@
-/*
- * @Description: 
-  
- * @Date: 2019-07-17 18:25:13
- */
+
 #ifndef LIDAR_LOCALIZATION_SENSOR_DATA_GNSS_DATA_HPP_
 #define LIDAR_LOCALIZATION_SENSOR_DATA_GNSS_DATA_HPP_
 
