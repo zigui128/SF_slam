@@ -82,12 +82,14 @@ using namespace lidar_localization;
 
 
 TEST(Preintegration, zerobias){
-  //generater IMU simulation data, including imu pose gyro acc
-  IMU imuGen;
 
   double t_start = 0.0;
   double t_end = 20.0;
   double imu_frequency = 30;
+
+  //generater IMU simulation data, including imu pose gyro acc
+  IMU imuGen(imu_frequency);
+
   // create imu data
   // imu pose gyro acc
   std::vector< MotionData > imudata;

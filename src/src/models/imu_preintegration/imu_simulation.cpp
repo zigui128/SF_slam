@@ -36,6 +36,41 @@ Eigen::Matrix3f eulerRates2bodyRates(Eigen::Vector3f eulerAngles)
     return R;
 }
 
+IMU::IMU(int imu_frequency_)
+{
+    gyro_bias_ = Eigen::Vector3f::Zero();
+    acc_bias_ = Eigen::Vector3f::Zero();
+    imu_frequency = imu_frequency_;
+    imu_timestep = 1.0/imu_frequency;
+}
+
+
+void IMU::addIMUnoise(MotionData& data)
+{
+    std::random_device rd;
+    std::default_random_engine generator_(rd());
+    std::normal_distribution<float> noise(0.0, 1.0);
+
+    Eigen::Vector3f noise_gyro(noise(generator_),noise(generator_),noise(generator_));
+    Eigen::Matrix3f gyro_sqrt_cov = gyro_noise_sigma * Eigen::Matrix3f::Identity();
+    data.imu_gyro = data.imu_gyro + gyro_sqrt_cov * noise_gyro / sqrt(imu_timestep ) + gyro_bias_;
+
+    Eigen::Vector3f noise_acc(noise(generator_),noise(generator_),noise(generator_));
+    Eigen::Matrix3f acc_sqrt_cov = acc_noise_sigma * Eigen::Matrix3f::Identity();
+    data.imu_acc = data.imu_acc + acc_sqrt_cov * noise_acc / sqrt(imu_timestep ) + acc_bias_;
+
+    // gyro_bias update
+    Eigen::Vector3f noise_gyro_bias(noise(generator_),noise(generator_),noise(generator_));
+    gyro_bias_ += gyro_bias_sigma * sqrt(imu_timestep ) * noise_gyro_bias;
+    data.imu_gyro_bias = gyro_bias_;
+
+    // acc_bias update
+    Eigen::Vector3f noise_acc_bias(noise(generator_),noise(generator_),noise(generator_));
+    acc_bias_ += acc_bias_sigma * sqrt(imu_timestep ) * noise_acc_bias;
+    data.imu_acc_bias = acc_bias_;
+
+}
+
 MotionData IMU::MotionModel(double t)
 {
 
@@ -73,6 +108,10 @@ MotionData IMU::MotionModel(double t)
     data.twb = position;
     data.imu_velocity = dp;
     data.timestamp = t;
+
+    //Add noise
+    addIMUnoise(data);
+
     return data;
 
 }
